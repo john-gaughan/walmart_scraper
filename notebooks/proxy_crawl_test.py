@@ -38,7 +38,66 @@ search_bar = driver.find_element_by_xpath('//*[@id="global-search-input"]')
 search_bar.send_keys('chicken waffle machine')
 search_bar.send_keys(Keys.ENTER)
 
-element = driver.find_element_by_id(id_='searchProductResult')
-txt = element.get_attribute('innerHTML')
-soup = BeautifulSoup(txt, 'lxml')
-list_items = soup.find_all('li')
+
+titles = driver.find_elements_by_class_name("search-result-product-title")
+for title in titles:
+    print(title.text)
+
+prices = driver.find_elements_by_class_name('search-result-productprice')
+
+for price in prices:
+    print(price.text)
+
+items = driver.find_elements_by_class_name('search-result-gridview-item')
+
+items[0].find_element_by_class_name('search-result-productprice').text.split("$",1)[1]
+items[0].find_element_by_class_name('price-characteristic').text
+items[0].find_element_by_class_name('price-mantissa').text
+
+
+for item in items:
+
+    # sponsored data-us-item-id
+    try:
+        title = item.find_element_by_class_name('product-title-link ').text
+        print(title)
+    except:
+        title = None
+
+    try:
+        item_id =
+
+    try:
+        # print(item.find_element_by_class_name('search-result-productprice').text.split("$",1)[1])
+        dollar = int(item.find_elements_by_class_name('price-characteristic')[0].text)
+        cent = int(item.find_elements_by_class_name('price-mantissa')[0].text)/100
+        price_low = dollar + cent
+        print(price_low)
+    except:
+        price_low = None
+
+    try:
+        dollar = int(item.find_elements_by_class_name('price-characteristic')[1].text)
+        cent = int(item.find_elements_by_class_name('price-mantissa')[1].text) / 100
+        price_high = dollar + cent
+        print(price_high)
+    except:
+        price_high = None
+
+    try:
+        rating = float(item.find_element_by_class_name('seo-avg-rating').text)
+        print(rating)
+
+    except:
+        rating = None
+
+    try:
+        reviews = int(item.find_element_by_class_name('stars-reviews-count').text.replace("\nratings",""))
+        print(reviews)
+    except:
+        reviews = None
+
+
+    # html = item.get_attribute('innerHTML')
+    # soup = BeautifulSoup(html, 'lxml')
+    # list_item = soup.find('')
